@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 y Desigualdad Socioeconómica en la RM</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        h4 {
+            color: var(--secondary);
+            margin: 1rem 0 0.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--secondary);
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 2rem 0;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .visualization-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+        
+        .visualization-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .visualization-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .visualization-caption {
+            padding: 1.5rem;
+        }
+        
+        .visualization-caption h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .data-source {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .analysis-text {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-left: 4px solid var(--secondary);
+            margin: 1rem 0;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .conclusion-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .conclusion-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .conclusion-list li:before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .team-member {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-member h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-role {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .no-contributions {
+            opacity: 0.6;
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .research-question {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .research-question h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .key-finding {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                text-align: center;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .visualization-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>COVID-19 y Desigualdad Socioeconómica en la RM</h1>
+            <p>Análisis del impacto diferenciado de la pandemia según nivel socioeconómico comunal</p>
+        </div>
+    </header>
+    
+    <div class="nav-tabs">
+        <div class="tab active" data-tab="intro">Introducción</div>
+        <div class="tab" data-tab="visualizations">Visualizaciones</div>
+        <div class="tab" data-tab="findings">Hallazgos</div>
+        <div class="tab" data-tab="conclusions">Conclusiones</div>
+        <div class="tab" data-tab="limitations">Limitaciones</div>
+        <div class="tab" data-tab="team">Equipo</div>
+    </div>
+    
+    <div class="container">
+        <div id="intro" class="tab-content active">
+            <h2>Introducción</h2>
+            <div class="card">
+                <p>Diversos informes del <strong>Ministerio de Salud (DEIS, 2020)</strong> y estudios como el de <strong>Mena et al. (2021)</strong>, publicado en <em>Science</em>, han sugerido posibles diferencias en el impacto del COVID-19 entre comunas con distintos niveles socioeconómicos. Sin embargo, estos análisis se han enfocado principalmente en aspectos generales de mortalidad o contagio, sin integrar variables como vacunación, movilidad o cobertura de testeo, ni examinar cómo interactúan estas dimensiones en el contexto comunal.</p>
+                
+                <p>Por ello, este proyecto busca <strong>integrar esa relación</strong>, utilizando datos abiertos y actualizados para determinar con mayor precisión si el nivel socioeconómico de las comunas de la Región Metropolitana se asoció al impacto del COVID-19, considerando tanto los efectos sanitarios como las condiciones sociales que podrían explicarlos.</p>
+                
+                <div class="highlight-box">
+                    <h3>Propósito del estudio</h3>
+                    <p>Analizar cómo varió el impacto del COVID-19 según el nivel socioeconómico comunal permite comprender mejor las <strong>brechas sociales que la crisis sanitaria amplificó</strong>. Este proyecto busca <strong>identificar patrones y relaciones</strong> entre variables como pobreza, mortalidad, vacunación, movilidad y cobertura de testeo en las comunas de la Región Metropolitana entre 2020 y 2022 para poder responder la pregunta principal:</p>
+                    <p><strong>¿Cuál es la relación entre el nivel socioeconómico comunal y el impacto del COVID-19 en la Región Metropolitana?</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="visualizations" class="tab-content">
+            <h2>Visualizaciones principales del análisis</h2>
+            
+            <div class="visualization-grid">
+                <div class="visualization-item">
+                    <img src="figures/mapa_nse_rm.png" alt="Mapa de NSE Predominante en la RM">
+                    <div class="visualization-caption">
+                        <h3>Mapa de NSE Predominante en la RM</h3>
+                        <div class="data-source">
+                            <strong>Fuente:</strong> Elaboración propia basada en datos CASEN 2017-2022 y CENSO 2017-2024
+                        </div>
+                        <div class="analysis-text">
+                            <p>El mapa evidencia la desigual distribución territorial del nivel socioeconómico en la Región Metropolitana. Se observa una clara segregación espacial donde las comunas del oriente presentan predominantemente niveles socioeconómicos altos, mientras que las comunas del sur y norponiente presentan niveles más bajos.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visualization-item">
+                    <img src="figures/mortalidad_prom_grupo_socioeconomicoNSE.png" alt="Mortalidad promedio por grupo socioeconómico">
+                    <div class="visualization-caption">
+                        <h3>Mortalidad promedio por COVID según grupo socioeconómico</h3>
+                        <div class="data-source">
+                            <strong>Fuente:</strong> Datos COVID-19 OBSERVA y CASEN 2017-2022
+                        </div>
+                        <div class="analysis-text">
+                            <p><strong>Definición de NSE:</strong> El NSE (Nivel Socioeconómico del hogar) se clasifica en "Bajo", "Bajo-Medio", "Medio", "Medio-alto", "Alto", siendo Alto los hogares más privilegiados socioeconomicamente hablando. Para este gráfico, hemos sacado el porcentaje de NSE de cada comuna (por promedios en ganancia) y lo hemos comparado a la mortalidad en porcentaje de población por todas las comunas de la Región Metropolitana.</p>
+                            <p>La mortalidad muestra una diferencia ligera pero consistente según el grupo socioeconómico al que pertenece, siendo Alto el menos afectado.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visualization-item">
+                    <img src="figures/corr_tasa_mortalidad_vs_variables_socio.png" alt="Tasa de mortalidad vs Índice de pobreza">
+                    <div class="visualization-caption">
+                        <h3>Tasa de mortalidad vs Variables Socioeconómicas</h3>
+                        <div class="data-source">
+                            <strong>Fuente:</strong> Elaboración propia basada en datos OBSERVA COVID-19 y CASEN
+                        </div>
+                        <div class="analysis-text">
+                            <p><strong>Análisis de correlaciones:</strong> La tasa de mortalidad por COVID-19 muestra una correlación positiva con el índice de pobreza, lo cual nos indica que a mayor pobreza, mayor tasa de mortalidad. Por otro lado, la relación con el ingreso promedio muestra una correlación negativa, indicando que las comunas con ingresos más altos tienden a tener menores tasas de mortalidad.</p>
+                            <p>Estas correlaciones sugieren que las comunas con mayores niveles de pobreza tienden a tener mayor mortalidad, lo que refleja la vulnerabilidad de los sectores más pobres frente a la pandemia. Además, comunas con ingresos más altos parecen tener menos mortalidad, posiblemente debido a mejores condiciones de salud y acceso a servicios médicos.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visualization-item">
+                    <img src="figures/boxplot_distribucion_vacunacion_nse.png" alt="Distribución de vacunación por NSE">
+                    <div class="visualization-caption">
+                        <h3>Distribución de Vacunación por Nivel Socioeconómico</h3>
+                        <div class="data-source">
+                            <strong>Fuente:</strong> Datos de vacunación OBSERVA y CASEN 2017-2022
+                        </div>
+                        <div class="analysis-text">
+                            <p>Se observa una relación entre la cobertura de vacunación y el NSE, siendo las categorías "Medio" y "Bajo-medio" aquellas con menor cobertura de vacunación (teniendo la misma media). Las comunas de nivel socioeconómico alto muestran una distribución más concentrada y con valores generalmente más altos en cobertura de vacunación.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visualization-item">
+                    <img src="figures/scatter_vacunacionmortalidadnse_mortalidad_vacunacion.png" alt="Vacunación vs mortalidad">
+                    <div class="visualization-caption">
+                        <h3>Vacunación vs Mortalidad: Perspectiva por Nivel Socioeconómico</h3>
+                        <div class="data-source">
+                            <strong>Fuente:</strong> Elaboración propia basada en datos OBSERVA COVID-19 y CASEN
+                        </div>
+                        <div class="analysis-text">
+                            <p><strong>Análisis detallado:</strong> Este gráfico muestra el porcentaje de vacunación de la primera dosis de la vacuna contra el covid-19 vs la mortalidad por comuna, y hace una comparación a la mortalidad y el NSE (Nivel Socioeconómico de las comunas).</p>
+                            <p>Como podemos notar, ya con los datos del NSE por comuna, se ve una relación entre la cantidad de dosis administradas de la vacuna por porcentaje de población y su NSE, siendo las categorías de "Medio" y "Bajo-medio" aquellas con menos vacunas (teniendo la misma media). Además, podemos notar que la mortalidad se ve reducida notoriamente en comunas de altos ingresos, incluso en aquellas comunas con más bajo rango de vacunación.</p>
+                            <p>Luego, exceptuando una comuna, el NSE "Medio-alto" se ve más afectado que las comunas "Alto", pero sin pasar el rango de 0.175 aprox. de mortalidad, sin embargo las comunas Medio y Bajo-medio no siguen patrones consistentes en cuanto a mortalidad, siendo ruidosas en el mapa, sobretodo la categoría "Medio".</p>
+                            <p>Con esto no podemos concluir que las vacunas hayan sido un causante de la baja mortalidad, sin embargo es válido plantearnos la pregunta si en realidad se distribuyen mejor los recursos a las comunas con alto NSE y es por esto la notoria subida en % de vacunación, además de presentar un patrón persistente de baja mortalidad al contrario de las otras comunas, que van de Medio-alto a Bajo-medio, donde más se nota la diferencia en Medio y Bajo-medio.</p>
+                            <p>Las variables que crean este fenómeno no se pueden concluir con nuestras bases de datos actuales, pero sería interesante, a futuro, investigar si esto se debió a diferencias en centros médicos, estilos de vida (como trabajos), exposición a lugares públicos como el transporte, etc.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visualization-item">
+                    <img src="figures/boxplot_cobertura_sospechosos_nse.png" alt="Cobertura de casos sospechosos por NSE">
+                    <div class="visualization-caption">
+                        <h3>Porcentaje de Cobertura de Casos Sospechosos según NSE</h3>
+                        <div class="data-source">
+                            <strong>Fuente:</strong> Datos OBSERVA COVID-19 y CASEN 2017-2022
+                        </div>
+                        <div class="analysis-text">
+                            <p>El porcentaje de cobertura de casos sospechosos es más bajo de lo normal en el sector Alto, mientras que en los otros niveles NSE se mantiene bastante estable, siendo Bajo-medio el único con un outlier bastante más abajo que los demás, y una media más baja que Medio-alto y Medio (pero más alta que Alto).</p>
+                            <p>Sin embargo, incluso con el outlier más bajo, se tiene un muy buen porcentaje de cobertura en todas las comunas: mayor al 80%, y un promedio aprox. del 90%. Por lo tanto, las diferencias, al ser de tan poco rango, podrían considerarse son clínicamente irrelevantes en el contexto de un sistema que logró coberturas excepcionales (>90%) de manera equitativa en todo el espectro socioeconómico. No así con las vacunas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="findings" class="tab-content">
+            <h2>Hallazgos principales</h2>
+            <div class="card">
+                <p>El análisis revela patrones consistentes sobre cómo la desigualdad socioeconómica se tradujo en impactos diferenciados durante la pandemia.</p>
+                
+                <div class="key-finding">
+                    <h4>🔍 Desigualdad territorial transversal</h4>
+                    <p>La desigualdad territorial es un eje importante del análisis y la podemos observar transversalmente en la vacunación (mayor en zonas ricas - NSE Alto) y el testeo, mientras que en las zonas pobres predomina la mortalidad.</p>
+                </div>
+                
+                <div class="key-finding">
+                    <h4>💉 Vacunación y mortalidad: relación compleja</h4>
+                    <p>Con base en algunos gráficos relacionados, como la débil correlación del heatmap y los gráficos de dispersión, podemos inferir que la mortalidad comunal no se explica por vacunación por sí sola, sino con otros factores adicionales como edad, testeo, acceso a salud, etc. Es interesante notar la cantidad de vacunados en porcentaje a la población, donde nuevamente las comunas ricas llevan la delantera de forma notable.</p>
+                </div>
+                
+                <div class="key-finding">
+                    <h4>🧪 Testeo como mediador clave</h4>
+                    <p>Los gráficos que analizamos muestran que más testeo significa más casos detectados y por lo tanto menor mortalidad proporcional. Mientras que cuando hay menos testeo, mayor subdiagnóstico y por ende mayor mortalidad. En base a lo anterior se podría concluir que testear más, al permitir diagnóstico temprano, indirectamente salva más vidas.</p>
+                </div>
+                
+                <div class="key-finding">
+                    <h4>📊 NSE e ingresos correlacionados con mortalidad</h4>
+                    <p>Podemos confirmar con varios gráficos que la mortalidad es más alta en comunas vulnerables y más baja en comunas ricas. Sumado a eso existe una mayor positividad en comunas pobres. Si bien no tenemos las variables indicadas para hacer un juicio totalmente correcto, sería interesante testear si esto se debe a la menor calidad y cantidad de los recursos sanitarios.</p>
+                </div>
+                
+                <div class="key-finding">
+                    <h4>📈 Cobertura de casos sospechosos: logro equitativo</h4>
+                    <p>Es notable la gran cantidad de casos sospechosos cubiertos en todas las comunas, que no bajan en promedio del 88%, siendo este un factor bastante interesante al considerar que, a pesar de esto, hubieron comunas que aún así tuvieron mayor índice de mortalidad (que en su mayoría se conectaba a bajos recursos), y un mal porcentaje de cobertura en la vacunación.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="conclusions" class="tab-content">
+            <h2>Conclusiones</h2>
+            <div class="card">
+                <div class="research-question">
+                    <h3>¿Cuál es la relación entre el nivel socioeconómico comunal y el impacto del COVID-19 en la Región Metropolitana de Chile?</h3>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>Respuesta directa</h3>
+                    <p>La relación entre el nivel socioeconómico comunal y el impacto del COVID-19 en la Región Metropolitana de Chile es clara: <strong>las comunas con menor NSE y menores ingresos han sufrido un mayor impacto sanitario, con más muertes y menor acceso a recursos sanitarios.</strong></p>
+                </div>
+                
+                <div class="analysis-text">
+                    <h4>Conclusión integral</h4>
+                    <p>El análisis realizado manifiesta que la desigualdad socioeconómica en la Región Metropolitana de Chile tiene un impacto directo y profundo en la distribución del impacto sanitario del COVID-19, especialmente en términos de vacunación, mortalidad y testeo. Las comunas más vulnerables, caracterizadas por un bajo nivel socioeconómico (NSE) y menores ingresos, han experimentado un mayor impacto de la pandemia, reflejando las desigualdades estructurales del sistema de salud y el acceso limitado a servicios de atención médica. En contraste, las comunas más ricas, con un NSE alto, han mostrado menores tasas de mortalidad, mayor acceso a las vacunas, mejores recursos sanitarios y mayor testeo, lo que ha permitido detectar y tratar los casos de manera más eficiente.</p>
+                    
+                    <p>Aunque la relación entre vacunación y mortalidad se muestra débil, los gráficos indican que la mortalidad no puede explicarse únicamente por la vacunación. Otros factores, como la edad de la población, el testeo y la calidad del sistema de salud, juegan un papel crucial en determinar los resultados sanitarios. En particular, notamos que a pesar de que la cobertura de casos sospechosos fue excepcional en todas las comunas, aún así el testeo se revela como un mediador clave, ya que las comunas con mayores tasas de testeo logran detectar más casos y, por lo tanto, mantienen una menor mortalidad proporcional. Esto subraya la importancia de diagnosticar a tiempo y prevenir el subdiagnóstico, lo que indirectamente ayuda a salvar vidas al permitir intervenciones más rápidas.</p>
+                    
+                    <p>Por otro lado, los análisis sobre el impacto de los sistemas de salud privados (isapre) y públicos (fonasa) no han proporcionado conclusiones definitivas debido a la baja representatividad de las muestras en las comunas donde predomina isapre. Esto deja abierta la pregunta sobre la efectividad comparativa entre estos sistemas en la lucha contra la pandemia, aunque los resultados actuales no permiten inferir causalidad.</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>Conclusión final</h3>
+                    <p>En resumen, el estudio confirma que las diferencias socioeconómicas entre comunas tienen un efecto directo en la mortalidad por COVID-19. Las comunas más vulnerables sufren peores resultados sanitarios debido a una combinación de factores como el bajo testeo, el acceso limitado a servicios médicos y la alta vulnerabilidad social. Si bien la vacunación es un factor importante en la reducción de la mortalidad, su impacto está condicionado por la presencia de otros determinantes sociales de la salud.</p>
+                    <p><strong>Este análisis subraya la necesidad de una intervención más equitativa en la distribución de recursos sanitarios, con un enfoque especial en las comunas de mayor pobreza, para reducir las desigualdades en salud y mitigar el impacto de futuras crisis sanitarias.</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="limitations" class="tab-content">
+            <h2>Limitaciones y consideraciones</h2>
+            <div class="card">
+                <p>Aunque el análisis realizado proporciona una visión valiosa sobre la relación entre el nivel socioeconómico y el impacto del COVID-19, existen limitaciones y sesgos que deben considerarse al interpretar los resultados.</p>
+                
+                <div class="analysis-text">
+                    <h4>Variables no consideradas y futuras investigaciones</h4>
+                    <p>Los hallazgos nos dejan con la incógnita de los factores que realmente llevan a las diferencias observadas en mortalidad, que, al no ser explicadas completamente por la cobertura de casos sospechosos, hacen relucir otras variables que no se han considerado. Creemos que vale la pena investigar en el futuro:</p>
+                    <ul class="conclusion-list">
+                        <li>Personas atendidas en centros públicos vs privados</li>
+                        <li>Calidad de recursos sanitarios de las comunas</li>
+                        <li>Variable del transporte público vs privado</li>
+                        <li>Estilo de trabajo de las personas (presencial vs remoto)</li>
+                        <li>Densidad poblacional y condiciones de vivienda</li>
+                        <li>Acceso a información y educación en salud</li>
+                    </ul>
+                </div>
+                
+                <div class="analysis-text">
+                    <h4>Limitaciones metodológicas</h4>
+                    <p>Un problema clave es el subdiagnóstico de los casos de COVID-19. En las comunas con menos recursos, el acceso a pruebas y la capacidad de diagnóstico son limitados, lo que significa que el número real de casos podría ser mayor de lo reportado. Este sesgo puede llevar a subestimar la mortalidad o la distribución de los casos en ciertas áreas, distorsionando la interpretación de la relación entre variables.</p>
+                    
+                    <p>Aunque se identificaron factores importantes como la vacunación y el nivel socioeconómico, muchas otras variables confusoras podrían haber influido en los resultados. Factores como la edad de la población, las enfermedades preexistentes, y el acceso a atención médica especializada no fueron completamente evaluados.</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <p><strong>Consideración final:</strong> Los problemas sociales son multi-factoriales y no pueden ser simplificados. Merecen un estudio cuidadoso y profundo de causales y planeación que considere la complejidad de los fenómenos sociales y de salud.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="team" class="tab-content">
+            <h2>Equipo de trabajo</h2>
+            <div class="card">                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <h4>Daniela Cerda</h4>
+                        <div class="team-role">Análisis de Sistemas de Salud</div>
+                        <p>Responsable del análisis de egresos hospitalarios (ISAPRE y FONASA), desarrollo conceptual y estructura lógica del proyecto.</p>
+                    </div>
+                    <div class="team-member">
+                        <h4>Liz González</h4>
+                        <div class="team-role">Análisis Socioeconómico</div>
+                        <p>Responsable del análisis de datos CASEN, modelo estadístico principal e integración de variables socioeconómicas.</p>
+                    </div>
+                    <div class="team-member">
+                        <h4>Isidora Mora</h4>
+                        <div class="team-role">Datos COVID-19 y Poblacionales</div>
+                        <p>Responsable del análisis de datos COVID-19, estimaciones poblacionales y procesamiento de datos censales.</p>
+                    </div>
+                    <div class="team-member no-contributions">
+                        <h4>Benjamín Ubilla</h4>
+                        <div class="team-role">Sin aportes al proyecto</div>
+                        <p>No realizó contribuciones al desarrollo de este trabajo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Proyecto de Ciencia de Datos - Análisis del impacto del COVID-19 en la Región Metropolitana de Chile</p>
+            <p>Datos: OBSERVA COVID-19, CASEN, CENSO, DEIS, Superintendencia de Salud</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to current tab and content
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
